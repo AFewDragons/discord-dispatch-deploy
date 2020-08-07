@@ -1,0 +1,32 @@
+# action.yml
+name: 'Hello World'
+description: 'Greet someone and record the time'
+inputs:
+  application-id:  # id of input
+    description: 'Discord Application/Client id'
+    required: true
+    default: 'aaaaa-aaaaa'
+  branch-id: 
+    description: 'Discord branch id'
+    required: true
+  bot-token:
+    description: 'Discord bot token'
+    required: true
+  config-path:
+    description: 'Discord config path'
+    required: true
+  build-path:
+    description: 'Path of build for application'
+    required: true
+outputs:
+  time:
+    description: 'The time we greeted you'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.application-id }}
+    - ${{ inputs.branch-id }}
+    - ${{ inputs.bot-token }}
+    - ${{ inputs.config-path }}
+    - ${{ inputs.build-path }}
