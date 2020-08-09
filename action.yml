@@ -1,8 +1,10 @@
 # action.yml
-name: 'Discord Dispatch Deploy'
+name: 'Discord - Dispatch Deploy'
+author: A Few Dragons
 description: 'Greet someone and record the time'
-icon: 'upload'
-color: 'purple'
+branding:
+  icon: 'upload'
+  color: 'purple'
 inputs:
   application-id:  # id of input
     description: 'Discord Application/Client id'
