@@ -5,7 +5,9 @@ echo "Starting Dispatch deploy build push"
 echo "$GITHUB_ACTION_PATH"
 echo "$GITHUB_EVENT_PATH"
 echo "$GITHUB_ACTION"
+echo "$GITHUB_WORKSPACE"
 
+cd $GITHUB_WORKSPACE
 ls
 
 mkdir ~/.dispatch
