@@ -2,6 +2,12 @@
 
 echo "Starting Dispatch deploy build push"
 
+echo "$GITHUB_ACTION_PATH"
+echo "$GITHUB_EVENT_PATH"
+echo "$GITHUB_ACTION"
+
+ls
+
 mkdir ~/.dispatch
 cp $GITHUB_ACTION_PATH/Dispatch/credentials.json ~/.dispatch/credentials.json
 sed -i "s/app_id_goes_here/$INPUT_APPID/" ~/.dispatch/credentials.json
