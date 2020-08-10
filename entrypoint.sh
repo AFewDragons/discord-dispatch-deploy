@@ -2,7 +2,7 @@
 
 echo "Starting Discord deploy"
 
-ls
+
 
 mkdir ~/.dispatch
 cp /Dispatch/credentials.json ~/.dispatch/credentials.json
@@ -21,5 +21,7 @@ fi
 /Dispatch/dispatch branch list $INPUT_APPID > branches.txt
 BRANCH_ID=$(grep $INPUT_BRANCHID branches.txt | cut -d'|' -f3 - | tr -d '[:space:]')
 /Dispatch/dispatch build push $BRANCH_ID $GITHUB_WORKSPACE/$INPUT_CONFIGPATH $GITHUB_WORKSPACE/$INPUT_BUILDPATH -p
+
+ls
 
 echo "Discord deploy completed"
