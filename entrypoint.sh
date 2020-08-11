@@ -2,20 +2,18 @@
 
 echo "Starting Discord deploy"
 
-
-
 mkdir ~/.dispatch
 cp /Dispatch/credentials.json ~/.dispatch/credentials.json
-sed -i "s/app_id_goes_here/$INPUT_APPID/" ~/.dispatch/credentials.json
+sed -i "s/app_id_goes_here/$INPUT_APPLICATIONID/" ~/.dispatch/credentials.json
 sed -i "s/token_goes_here/$INPUT_BOTTOKEN/" ~/.dispatch/credentials.json
 chmod +x /Dispatch/dispatch
 
-/Dispatch/dispatch branch list $INPUT_APPID > branches.txt
+/Dispatch/dispatch branch list $INPUT_APPLICATIONID > branches.txt
 if grep -q $INPUT_BRANCHID branches.txt; then
   echo "branch exists"
 else
   echo "branch does not exists; creating"
-  /Dispatch/dispatch branch create $INPUT_APPID $INPUT_BRANCHID
+  /Dispatch/dispatch branch create $INPUT_APPLICATIONID $INPUT_BRANCHID
 fi
 
 /Dispatch/dispatch branch list $INPUT_APPID > branches.txt
