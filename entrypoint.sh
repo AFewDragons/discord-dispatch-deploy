@@ -22,10 +22,9 @@ else
 fi
 
 BRANCH_ID=$(grep $INPUT_BRANCHID branches.txt | cut -d'|' -f3 - | tr -d '[:space:]')
-CONFIGPATH=$GITHUB_WORKSPACE/$INPUT_CONFIGPATH
-APPLICATIONROOT=$GITHUB_WORKSPACE/$INPUT_BUILDPATH
-/Dispatch/dispatch build push $BRANCH_ID $CONFIGPATH $APPLICATIONROOT -p
 
-ls
+echo "Using config ($INPUT_CONFIGPATH) to build ($INPUT_BUILDPATH)"
+
+/Dispatch/dispatch build push $BRANCH_ID $INPUT_CONFIGPATH $INPUT_BUILDPATH -p
 
 echo "Discord deploy completed"
