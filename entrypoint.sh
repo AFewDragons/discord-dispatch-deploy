@@ -16,7 +16,7 @@ if grep $INPUT_BRANCHID branches.txt; then
 else
   echo "branch does not exists; creating"
   /Dispatch/dispatch branch create $INPUT_APPLICATIONID $INPUT_BRANCHID
-  /Dispatch/dispatch branch list $INPUT_APPLICATIONID > branches.tx
+  /Dispatch/dispatch branch list $INPUT_APPLICATIONID > branches.txt
 fi
 
 BRANCH_ID=$(grep $INPUT_BRANCHID branches.txt | cut -d'|' -f3 - | tr -d '[:space:]')
