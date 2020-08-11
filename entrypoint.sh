@@ -11,7 +11,7 @@ chmod +x /Dispatch/dispatch
 /Dispatch/dispatch branch list $INPUT_APPLICATIONID > branches.txt
 cat branches.txt
 
-if grep $INPUT_BRANCHID branches.txt; then
+if [grep -q $INPUT_BRANCHID branches.txt]; then
   echo "branch exists"
 else
   echo "branch does not exists; creating"
@@ -20,7 +20,9 @@ else
 fi
 
 BRANCH_ID=$(grep $INPUT_BRANCHID branches.txt | cut -d'|' -f3 - | tr -d '[:space:]')
-/Dispatch/dispatch build push $BRANCH_ID $GITHUB_WORKSPACE/$INPUT_CONFIGPATH $GITHUB_WORKSPACE/$INPUT_BUILDPATH -p
+CONFIGPATH=$GITHUB_WORKSPACE/$INPUT_CONFIGPATH
+APPLICATIONROOT=$GITHUB_WORKSPACE/$INPUT_BUILDPATH
+/Dispatch/dispatch build push $BRANCH_ID $CONFIGPATH $APPLICATIONROOT -p
 
 ls
 
