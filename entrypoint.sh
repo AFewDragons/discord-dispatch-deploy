@@ -11,7 +11,7 @@ chmod +x /Dispatch/dispatch
 /Dispatch/dispatch branch list $INPUT_APPLICATIONID > branches.txt
 cat branches.txt
 
-if [grep -q $INPUT_BRANCHID branches.txt]; then
+if [ $(grep -q $INPUT_BRANCHID branches.txt) ]; then
   echo "branch exists"
 else
   echo "branch does not exists; creating"
