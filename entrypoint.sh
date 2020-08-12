@@ -2,8 +2,6 @@
 
 echo "Starting Discord deploy"
 
-RUST_BACKTRACE=1
-
 mkdir ~/.dispatch
 cp /Dispatch/credentials.json ~/.dispatch/credentials.json
 sed -i "s/app_id_goes_here/$INPUT_APPLICATIONID/" ~/.dispatch/credentials.json

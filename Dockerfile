@@ -3,6 +3,7 @@ FROM ubuntu:20.04
 RUN apt-get update
 RUN apt-get install -y wget build-essential zlib1g-dev
 ARG OPENSSL_VERSION=1.1.0g
+ENV RUST_BACKTRACE=1
 RUN wget https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
 RUN tar xvfz openssl-${OPENSSL_VERSION}.tar.gz
 RUN cd openssl-${OPENSSL_VERSION} && ./config && make && make install_sw
