@@ -23,7 +23,7 @@ fi
 
 BRANCH_ID=$(grep $INPUT_BRANCHID branches.txt | cut -d'|' -f3 - | tr -d '[:space:]')
 
-echo "Using config ($INPUT_CONFIGPATH) to build ($INPUT_BUILDPATH)"
+echo "Using config ($INPUT_CONFIGPATH) for $BRANCH_ID to build ($INPUT_BUILDPATH)"
 
 /Dispatch/dispatch build push $BRANCH_ID $INPUT_CONFIGPATH $INPUT_BUILDPATH -p
 
