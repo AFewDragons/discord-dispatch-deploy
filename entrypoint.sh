@@ -9,7 +9,7 @@ sed -i "s/token_goes_here/$INPUT_BOTTOKEN/" ~/.dispatch/credentials.json
 chmod +x /Dispatch/dispatch
 
 /Dispatch/dispatch branch list $INPUT_APPLICATIONID > branches.txt
-BRANCH_ID=$(grep -oP "$INPUT_BRANCHID\s*\|\s*\K\d*" branches.txt)
+BRANCH_ID=$(grep -oP "\d+(?=\s*\|\s*$INPUT_BRANCHID)" branches.txt)
 
 if [ $BRANCH_ID ]; then
   echo "Branch $INPUT_BRANCHID [$BRANCH_ID] exists"
@@ -17,7 +17,7 @@ else
   echo "Branch $INPUT_BRANCHID does not exist; creating.."
   /Dispatch/dispatch branch create $INPUT_APPLICATIONID $INPUT_BRANCHID
   /Dispatch/dispatch branch list $INPUT_APPLICATIONID > branches.txt
-  BRANCH_ID=$(grep -oP "$INPUT_BRANCHID\s*\|\s*\K\d*" branches.txt)
+  BRANCH_ID=$(grep -oP "\d+(?=\s*\|\s*$INPUT_BRANCHID)" branches.txt)
   echo "Branch $INPUT_BRANCHID [$BRANCH_ID] created"
 fi
 
