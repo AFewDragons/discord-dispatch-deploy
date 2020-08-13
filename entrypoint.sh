@@ -10,18 +10,20 @@ chmod +x /Dispatch/dispatch
 
 /Dispatch/dispatch branch list $INPUT_APPLICATIONID > branches.txt
 cat branches.txt
+BRANCH_ID=$(grep -oP "$INPUT_BRANCHID\s*\|\s*\K\d*" branches.txt)
+cat $BRANCH_ID
 
-if [ $(grep -q $INPUT_BRANCHID branches.txt) ]; then
+if [ $BRANCH_ID ]; then
   echo "branch exists"
 else
-  echo "branch does not exists; creating"
+  echo "branch does not exist; creating"
   /Dispatch/dispatch branch create $INPUT_APPLICATIONID $INPUT_BRANCHID
   /Dispatch/dispatch branch list $INPUT_APPLICATIONID > branches.txt
+  BRANCH_ID=$(grep -oP "$INPUT_BRANCHID\s*\|\s*\K\d*" branches.txt)
+  cat $BRANCH_ID
 fi
 
-BRANCH_ID=$(grep $INPUT_BRANCHID branches.txt | cut -d'|' -f3 - | tr -d '[:space:]')
-
-echo "Using config ($INPUT_CONFIGPATH) for $BRANCH_ID to build ($INPUT_BUILDPATH)"
+echo "Using config ($INPUT_CONFIGPATH) for $INPUT_BRANCHID [$BRANCH_ID] to build ($INPUT_BUILDPATH)"
 
 /Dispatch/dispatch build push $BRANCH_ID $INPUT_CONFIGPATH $INPUT_BUILDPATH -p
 
