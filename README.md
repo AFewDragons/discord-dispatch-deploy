@@ -30,10 +30,10 @@ No outputs
 
 ## Example usage
 
-uses: AFewDragons/Discord-Dispatch-Deploy@v1-alpha
-  with:
-    applicationId: ${{ secrets.APP_ID }}
-    branchName: dev
-    botToken: ${{ secrets.TOKEN }}
-    configPath: ./config.json
+uses: AFewDragons/Discord-Dispatch-Deploy@v1-alpha  
+  with:  
+    applicationId: ${{ secrets.APP_ID }}  
+    branchName: dev  
+    botToken: ${{ secrets.TOKEN }}  
+    configPath: ./config.json  
     buildPath: ./Build/
