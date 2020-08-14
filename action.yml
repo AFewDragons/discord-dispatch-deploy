@@ -10,7 +10,7 @@ inputs:
     description: 'Discord Application/Client id'
     required: true
     default: 'aaaaa-aaaaa'
-  branchId: 
+  branchName: 
     description: 'Discord branch id'
     required: true
   botToken:
@@ -30,7 +30,7 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.applicationId }}
-    - ${{ inputs.branchId }}
+    - ${{ inputs.branchName }}
     - ${{ inputs.botToken }}
     - ${{ inputs.configPath }}
     - ${{ inputs.buildPath }}
