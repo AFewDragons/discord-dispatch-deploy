@@ -1,29 +1,28 @@
 #!/bin/sh -l
 
-echo "Starting Discord Dispatch build push"
-
-APP_ID = $1
-BRANCH_NAME = $2
-TOKEN = $3
-CONFIG_PATH = $4
-BUILD_PATH = $5
+echo "Starting Discord deploy"
 
 mkdir ~/.dispatch
-cp $GITHUB_WORKSPACE/Dispatch/credentials.json ~/.dispatch/credentials.json
-sed -i "s/app_id_goes_here/$APP_ID/" ~/.dispatch/credentials.json
-sed -i "s/token_goes_here/$TOKEN/" ~/.dispatch/credentials.json
-chmod +x $GITHUB_WORKSPACE/Dispatch/dispatch
+cp /Dispatch/credentials.json ~/.dispatch/credentials.json
+sed -i "s/app_id_goes_here/$INPUT_APPLICATIONID/" ~/.dispatch/credentials.json
+sed -i "s/token_goes_here/$INPUT_BOTTOKEN/" ~/.dispatch/credentials.json
+chmod +x /Dispatch/dispatch
 
-$GITHUB_WORKSPACE/Dispatch/dispatch branch list $1 > branches.txt
-if grep -q $2 branches.txt; then
-  echo "branch exists"
+/Dispatch/dispatch branch list $INPUT_APPLICATIONID > branches.txt
+BRANCH_ID=$(grep -oP "\d+(?=\s*\|\s*$INPUT_BRANCHID)" branches.txt)
+
+if [ $BRANCH_ID ]; then
+  echo "Branch $INPUT_BRANCHID [$BRANCH_ID] exists"
 else
-  echo "branch does not exists; creating"
-  $GITHUB_WORKSPACE/Dispatch/dispatch branch create $1 $2
+  echo "Branch $INPUT_BRANCHID does not exist; creating.."
+  /Dispatch/dispatch branch create $INPUT_APPLICATIONID $INPUT_BRANCHID
+  /Dispatch/dispatch branch list $INPUT_APPLICATIONID > branches.txt
+  BRANCH_ID=$(grep -oP "\d+(?=\s*\|\s*$INPUT_BRANCHID)" branches.txt)
+  echo "Branch $INPUT_BRANCHID [$BRANCH_ID] created"
 fi
 
-$GITHUB_WORKSPACE/Dispatch/dispatch branch list $1 > branches.txt
-BRANCH_ID=$(grep $2 branches.txt | cut -d'|' -f3 - | tr -d '[:space:]')
-$GITHUB_WORKSPACE/Dispatch/dispatch build push $BRANCH_ID $GITHUB_WORKSPACE/$CONFIG_PATH $GITHUB_WORKSPACE/$BUILD_PATH -p
+echo "Using config ($INPUT_CONFIGPATH) for $INPUT_BRANCHID [$BRANCH_ID] to build ($INPUT_BUILDPATH)"
 
-echo "Dispatch for application $1 completed"
+/Dispatch/dispatch build push $BRANCH_ID $INPUT_CONFIGPATH $INPUT_BUILDPATH -p
+
+echo "Discord deploy completed"
