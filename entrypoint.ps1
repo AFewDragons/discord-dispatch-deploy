@@ -38,6 +38,8 @@ function GetBranchId([string]$ApplicationId, [string]$BranchName)
 {
     # Dispatch command to get list of branches for provided ApplicationId
     $Branches = $(& /Dispatch/dispatch branch list $ApplicationId)
+    # Ensure output does not contain error, if so return exception
+    if ($Branches | Select-String -Pattern "ERROR" -SimpleMatch) { Write-Error $Branches }
     # Obtain the BranchId for matching branches
     $BranchId = Select-String -InputObject $Branches -Pattern "\d+(?=\s*\|\s*$BranchName)" -AllMatches
     # Select the BranchId. If there are more than one matches, return exception
@@ -85,7 +87,7 @@ try
         $BranchId = GetBranchId -ApplicationId $ApplicationId -BranchName $BranchName
         
         # Check that the branch was actually retrieved, else return exception
-        if(!$BranchId) {Write-Error "Attempted to create branch $BranchName, but it still could not be found!"}
+        if (!$BranchId) { Write-Error "Attempted to create branch $BranchName, but it still could not be found!" }
 
         Write-Host "Branch $BranchName [$BranchId] created."
     }

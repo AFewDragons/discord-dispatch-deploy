@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/powershell:latest
+FROM mcr.microsoft.com/powershell:7.1.0-preview.6-ubuntu-20.04
 
 ENV \
     VERSION=1.1.0l \
@@ -29,6 +29,8 @@ ENV \
 ADD Dispatch/ ./Dispatch/
 RUN chmod -R +x ./Dispatch/
 ADD entrypoint.ps1 /entrypoint.ps1
+ADD entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.*
 
 # Code file to execute when the docker container starts up
-ENTRYPOINT ["pwsh", "-File", "entrypoint.ps1"]
+ENTRYPOINT ["/entrypoint.sh"]
