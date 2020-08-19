@@ -8,19 +8,19 @@
 [CmdletBinding()]
 param (
     [Parameter()]
-    [string]$BranchName = $env:INPUT_BRANCHNAME,
+    [string]$BranchName = $env:BranchName,
 
     [Parameter()]
-    [string]$ConfigPath = $env:INPUT_CONFIGPATH,
+    [string]$ConfigPath = $env:ConfigPath,
     
     [Parameter()]
-    [string]$BuildPath = $env:INPUT_BUILDPATH,
+    [string]$BuildPath = $env:BuildPath,
 
     [Parameter()]
-    [string]$ApplicationId = $env:INPUT_APPLICATIONID,
+    [string]$ApplicationId = $env:ApplicationId,
     
     [Parameter()]
-    [string]$BotToken = $env:INPUT_BOTTOKEN
+    [string]$BotToken = $env:BotToken
 )
 
 #Requires -Version 7.0

@@ -1,36 +1,36 @@
 # action.yml
-name: 'Discord - Dispatch Deploy'
+name: "Discord - Dispatch Deploy"
 author: A Few Dragons
-description: 'Greet someone and record the time'
+description: "Greet someone and record the time"
 branding:
-  icon: 'upload'
-  color: 'purple'
+  icon: "upload"
+  color: "purple"
 inputs:
-  applicationId:  # id of input
-    description: 'Discord Application/Client id'
+  applicationId: # id of input
+    description: "Discord Application/Client id"
     required: true
-    default: 'aaaaa-aaaaa'
-  branchName: 
-    description: 'Discord branch id'
+    default: "aaaaa-aaaaa"
+  branchName:
+    description: "Discord branch id"
     required: true
   botToken:
-    description: 'Discord bot token'
+    description: "Discord bot token"
     required: true
   configPath:
-    description: 'Discord config path'
+    description: "Discord config path"
     required: true
   buildPath:
-    description: 'Path of build for application'
+    description: "Path of build for application"
     required: true
 outputs:
   time:
-    description: 'The time we greeted you'
+    description: "The time we greeted you"
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.applicationId }}
-    - ${{ inputs.branchName }}
-    - ${{ inputs.botToken }}
-    - ${{ inputs.configPath }}
-    - ${{ inputs.buildPath }}
+  using: "docker"
+  image: "Dockerfile"
+  env:
+    ApplicationId: ${{ inputs.applicationId }}
+    BranchName: ${{ inputs.branchName }}
+    BotToken: ${{ inputs.botToken }}
+    ConfigPath: ${{ inputs.configPath }}
+    BuildPath: ${{ inputs.buildPath }}
