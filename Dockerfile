@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/powershell:7.1.0-preview.6-ubuntu-20.04
+FROM mcr.microsoft.com/powershell:latest
 
 ENV \
     VERSION=1.1.0l \
