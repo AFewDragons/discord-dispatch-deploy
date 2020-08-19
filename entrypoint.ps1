@@ -38,8 +38,7 @@ function GetBranchId([string]$ApplicationId, [string]$BranchName)
 {
     # Dispatch command to get list of branches for provided ApplicationId
     $Branches = $(& /Dispatch/dispatch branch list $ApplicationId)
-    # Ensure output does not contain error, if so return exception
-    if ($Branches | Select-String -Pattern "ERROR" -SimpleMatch) { Write-Error $Branches }
+    if ($LASTEXITCODE -ne 0) { Write-Error $Branches }
     # Obtain the BranchId for matching branches
     $BranchId = Select-String -InputObject $Branches -Pattern "\d+(?=\s*\|\s*$BranchName)" -AllMatches
     # Select the BranchId. If there are more than one matches, return exception
@@ -70,18 +69,14 @@ try
     # Get the BranchId using the GetBranchId function
     $BranchId = GetBranchId -ApplicationId $ApplicationId -BranchName $BranchName
 
-    if ($BranchId)
-    {
-        # The BranchId was successfully retrieved
-        Write-Host "Branch $BranchName [$BranchId] exists."
-    }
-    else
+    if (!$BranchId)
     {
         # No BranchId was returned, commence creating the branch
         Write-Host "Branch $BranchName does not exist; Creating.."
 
         # Dispatch command to create the branch
-        $(& /Dispatch/dispatch branch create $ApplicationId $BranchName)
+        $Command = $(& /Dispatch/dispatch branch create $ApplicationId $BranchName)
+        if ($LASTEXITCODE -ne 0) { Write-Error $Command }
 
         # Get the newly created branch
         $BranchId = GetBranchId -ApplicationId $ApplicationId -BranchName $BranchName
@@ -94,7 +89,8 @@ try
 
     # Deploy the application to Discord with Dispatch
     Write-Host "Using config ($ConfigPath) for $BranchName [$BranchId] to build ($BuildPath).."
-    $(& /Dispatch/dispatch build push $BranchId $ConfigPath $BuildPath)
+    $Command = $(& /Dispatch/dispatch build push $BranchId $ConfigPath $BuildPath)
+    if ($LASTEXITCODE -ne 0) { Write-Error $Command }
 
     Write-Host "Discord deploy completed."
 }
