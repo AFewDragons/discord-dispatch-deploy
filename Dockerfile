@@ -29,8 +29,9 @@ ENV \
 ADD Dispatch/ ./Dispatch/
 RUN chmod -R +x ./Dispatch/
 ADD entrypoint.ps1 /entrypoint.ps1
-ADD entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.*
+
+# To overcome challenges launching pwsh directly in the ENTRYPOINT when run in GitHub actions, creating a shell script to run it for us which has been more reliable.
+RUN echo "#!/usr/bin/env bash\n\npwsh -f /entrypoint.ps1" > /entrypoint.sh && chmod +x /entrypoint.*
 
 # Code file to execute when the docker container starts up
 ENTRYPOINT ["/entrypoint.sh"]
