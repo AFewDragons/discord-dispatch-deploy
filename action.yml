@@ -1,15 +1,14 @@
 # action.yml
 name: "Discord - Dispatch Deploy"
-author: A Few Dragons
-description: "Greet someone and record the time"
+author: "A Few Dragons"
+description: "Deploy an application to Discord using Discord Dispatch"
 branding:
   icon: "upload"
   color: "purple"
 inputs:
-  applicationId: # id of input
+  applicationId:
     description: "Discord Application/Client id"
     required: true
-    default: "aaaaa-aaaaa"
   branchName:
     description: "Discord branch id"
     required: true
@@ -22,9 +21,6 @@ inputs:
   buildPath:
     description: "Path of build for application"
     required: true
-outputs:
-  time:
-    description: "The time we greeted you"
 runs:
   using: "docker"
   image: "Dockerfile"

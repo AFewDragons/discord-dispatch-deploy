@@ -1,8 +1,8 @@
 <#
     .SYNOPSIS
-    Deploy Application to Discord
+    Deploy an Application to Discord
     .DESCRIPTION
-    Using Discord Dispatch, deploy an application to Discord
+    Deploy an application to Discord using Discord Dispatch
 #>
 
 [CmdletBinding()]
@@ -55,15 +55,14 @@ trap
 
 try
 {
-    # Create Dispatch Profile directory and copy in the credentials file
+    # Create Dispatch Profile directory
     New-Item -ItemType Directory -Path $DispatchProfilePath | Out-Null && Write-Host "Created directory $DispatchProfilePath"
-    Copy-Item -Path $CredentialsFilePath -Destination $CredentialsFileTarget && Write-Host "Copied $CredentialsFilePath to $CredentialsFileTarget"
 
-    # Transform Credentials file
-    $CredentialsFile = Get-Content $CredentialsFileTarget
-    $CredentialsFile = $CredentialsFile -replace "app_id_goes_here", $ApplicationId
-    $CredentialsFile = $CredentialsFile -replace "token_goes_here", $BotToken
-    $CredentialsFile | Set-Content $CredentialsFileTarget
+    # Transform Credentials file and save to Dispatch Profile directory
+    $CredentialsFile = Get-Content $CredentialsFilePath -Raw | ConvertFrom-Json
+    $CredentialsFile.BotCredentials.application_id = $ApplicationId
+    $CredentialsFile.BotCredentials.token = $BotToken
+    $CredentialsFile | ConvertTo-Json | Set-Content $CredentialsFileTarget
     Write-Host "Imported credentials to $CredentialsFileTarget"
 
     # Get the BranchId using the GetBranchId function

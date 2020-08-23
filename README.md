@@ -1,6 +1,6 @@
-# Discord Dispatch-deploy
+# Discord - Dispatch Deploy
 
-This action will deploy a single application to Discord using Dispatch
+This action will deploy a single application to Discord using Discord Dispatch
 
 ## Inputs
 
@@ -31,7 +31,7 @@ No outputs
 ## Example usage
 
 ```yaml
-uses: AFewDragons/Discord-Dispatch-Deploy@v1-alpha
+uses: AFewDragons/Discord-Dispatch-Deploy@v1-alpha.2
   with:
     applicationId: ${{ secrets.APP_ID }}
     branchName: dev
