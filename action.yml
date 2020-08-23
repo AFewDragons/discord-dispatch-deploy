@@ -21,6 +21,13 @@ inputs:
   buildPath:
     description: "Path of build for application"
     required: true
+  drmWrap:
+    description: "Apply Discord DRM to the application"
+    default: false
+    required: false
+  executableName:
+    description: "Application executable name"
+    required: false
 runs:
   using: "docker"
   image: "Dockerfile"
@@ -30,3 +37,5 @@ runs:
     BotToken: ${{ inputs.botToken }}
     ConfigPath: ${{ inputs.configPath }}
     BuildPath: ${{ inputs.buildPath }}
+    DrmWrap: ${{ inputs.drmWrap }}
+    ExecutableName: ${{ inputs.executableName }}

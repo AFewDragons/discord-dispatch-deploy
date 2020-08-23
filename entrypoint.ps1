@@ -20,7 +20,13 @@ param (
     [string]$ApplicationId = $env:ApplicationId,
     
     [Parameter()]
-    [string]$BotToken = $env:BotToken
+    [string]$BotToken = $env:BotToken,
+
+    [Parameter()]
+    [bool]$DrmWrap = $env:DrmWrap ?? $false,
+
+    [Parameter()]
+    [string]$ExecutableName = $env:ExecutableName
 )
 
 #Requires -Version 7.0
@@ -84,6 +90,21 @@ try
         if (!$BranchId) { Write-Error "Attempted to create branch $BranchName, but it still could not be found!" }
 
         Write-Host "Branch $BranchName [$BranchId] created."
+    }
+
+    if ($DrmWrap)
+    {
+        # Validate that an executable name was provided, else return exception
+        if (!$ExecutableName) { Write-Error "DrmWrap was requested but no ExecutableName was provided!" }
+
+        # Define the path to the executable
+        $ExecutablePath = "$BuildPath/$ExecutableName"
+
+        # Apply DRM to the executable
+        $Command = $(& /Dispatch/dispatch build drm-wrap $ApplicationId $ExecutablePath)
+        if ($LASTEXITCODE -ne 0) { Write-Error $Command }
+
+        Write-Host "DRM has been applied to $ExecutablePath"
     }
 
     # Deploy the application to Discord with Dispatch
