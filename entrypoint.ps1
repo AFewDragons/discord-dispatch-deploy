@@ -23,7 +23,7 @@ param (
     [string]$BotToken = $env:BotToken,
 
     [Parameter()]
-    [bool]$DrmWrap = $env:DrmWrap ?? $false,
+    [bool]$DrmWrap = [bool]::parse($env:DrmWrap) ?? $false,
 
     [Parameter()]
     [string]$ExecutableName = $env:ExecutableName
