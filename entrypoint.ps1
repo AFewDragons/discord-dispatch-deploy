@@ -109,7 +109,7 @@ try
 
     # Deploy the application to Discord with Dispatch
     Write-Host "Using config ($ConfigPath) for $BranchName [$BranchId] to build ($BuildPath).."
-    $Command = $(& /Dispatch/dispatch build push $BranchId $ConfigPath $BuildPath)
+    $Command = $(& /Dispatch/dispatch build push $BranchId $ConfigPath $BuildPath -p)
     if ($LASTEXITCODE -ne 0) { Write-Error $Command }
 
     Write-Host "Discord deploy completed."
