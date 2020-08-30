@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM mcr.microsoft.com/powershell:latest
 
 ENV \
     VERSION=1.1.0l \
@@ -10,9 +10,7 @@ RUN \
     cd /usr/local/src/ && \
     curl https://www.openssl.org/source/openssl-${VERSION}.tar.gz -o openssl-${VERSION}.tar.gz && \
     sha256sum openssl-${VERSION}.tar.gz | grep ${SHA256} && \
-    tar -xf openssl-${VERSION}.tar.gz
-
-RUN \
+    tar -xf openssl-${VERSION}.tar.gz && \
     cd /usr/local/src/openssl-${VERSION} && \
     ./config --prefix=/usr/local/ssl --openssldir=/usr/local/ssl shared zlib && \
     make && \
@@ -30,7 +28,10 @@ ENV \
 
 ADD Dispatch/ ./Dispatch/
 RUN chmod -R +x ./Dispatch/
-ADD entrypoint.sh /entrypoint.sh
+ADD entrypoint.ps1 /entrypoint.ps1
 
-# Code file to execute when the docker container starts up (`entrypoint.sh`)
+# To overcome challenges launching pwsh directly in the ENTRYPOINT when run in GitHub actions, creating a shell script to run it for us which has been more reliable.
+RUN echo "#!/usr/bin/env bash\n\npwsh -f /entrypoint.ps1" > /entrypoint.sh && chmod +x /entrypoint.*
+
+# Code file to execute when the docker container starts up
 ENTRYPOINT ["/entrypoint.sh"]

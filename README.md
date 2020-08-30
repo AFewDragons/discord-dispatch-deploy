@@ -1,6 +1,6 @@
-# Discord Dispatch-deploy
+# Discord - Dispatch Deploy
 
-This action will deploy a single application to Discord using Dispatch
+This action will deploy a single application to Discord using Discord Dispatch
 
 ## Inputs
 
@@ -24,18 +24,42 @@ This action will deploy a single application to Discord using Dispatch
 
 **Required** The path of the build to be pushed. Make sure the folder contains the executable that your config is pointing to.
 
+### `drmWrap`
+
+*Optional* Boolean to specify whether or not to apply Discord DRM protection.
+
+### `executableName`
+
+*Optional* The name of the executable. This is **required** if drmWrap is `true`.
+
 ## Outputs
 
 No outputs
 
 ## Example usage
 
+### Without DRM
+
 ```yaml
-uses: AFewDragons/Discord-Dispatch-Deploy@v1-alpha
+uses: AFewDragons/Discord-Dispatch-Deploy@v1-alpha.2
   with:
     applicationId: ${{ secrets.APP_ID }}
     branchName: dev
     botToken: ${{ secrets.TOKEN }}
     configPath: ./config.json
     buildPath: ./Build/
+```
+
+### With DRM
+
+```yaml
+uses: AFewDragons/Discord-Dispatch-Deploy@v1-alpha.2
+  with:
+    applicationId: ${{ secrets.APP_ID }}
+    branchName: dev
+    botToken: ${{ secrets.TOKEN }}
+    configPath: ./config.json
+    buildPath: ./Build/
+    drmWrap: true
+    executableName: "My Application.exe"
 ```
